@@ -1,0 +1,22 @@
+{
+  "name": "com.greenbamboogames.assetchecker",
+  "version": "1.0.0",
+  "displayName": "Asset Checker!",
+  "description": "Easy to use and extensible asset checking tool.",
+  "unity": "2021.3",
+  "documentationUrl": "https://github.com/SolarianZ/UnityAssetChecker",
+  "changelogUrl": "https://github.com/SolarianZ/UnityAssetChecker/releases",
+  "licensesUrl": "https://github.com/SolarianZ/UnityAssetChecker/blob/main/LICENSE",
+  "keywords": [
+    "Asset",
+    "Check",
+    "Validate"
+  ],
+  "author": {
+    "name": "ZQY",
+    "email": "vdergow@hotmail.com",
+    "url": ""
+  },
+  "type": "tool",
+  "hideInEditor": false
+}
