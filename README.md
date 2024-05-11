@@ -141,9 +141,19 @@ Open the Asset Checker window by selecting "Tools/Bamboo/Asset Checker" from the
 
 In the Asset Checker window, click the "New" button next to the "Settings" property to create a new settings asset (`AssetCheckerSettings`). Then assign this settings asset to the "Settings" property.
 
+![New Asset Checker Settings](./Documents~/imgs/img_sample_asset_checker_new_settings.png)
+
 Select the settings asset and in the Inspector, assign the previously created Asset Provider asset to the "Asset Provider" property, and the Asset Checker asset to the "Asset Checkers" property. The "Asset Checkers" property can have multiple Asset Checker assets, which will be executed sequentially during the checking process.
 
 In the Asset Checker window, click the "Execute" button to perform the checking process. The Asset Checker window will then display all the check results.
+
+### Clear Check Results
+
+Select the "Clear Check Results" option from the context menu in Asset Checker to clear the check results.
+
+### Switch Result Icon Style
+
+Select the "Result Icon Style" option from the context menu in Asset Checker to switch the icon style.
 
 ### Rechecking and Attempting to Repair Issues
 

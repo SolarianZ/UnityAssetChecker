@@ -42,6 +42,7 @@ Asset Provider是 `ScriptableObject` 的子类型，用于向Asset Checker提供
 然后创建该类型的Asset Provider资产，稍后需要将该Asset Provider资产设置到配置文件中。
 
 示例：
+
 ```csharp
 using GBG.AssetChecker.Editor.AssetChecker;
 using System.Collections.Generic;
@@ -78,6 +79,7 @@ Asset Checker是 `ScriptableObject` 的子类型，用于执行资产检查流�
 然后创建该类型的Asset Checker资产，稍后需要将该Asset Checker资产设置到配置文件中。
 
 示例：
+
 ```csharp
 using GBG.AssetChecker.Editor.AssetChecker;
 using UnityEngine;
@@ -139,6 +141,8 @@ public class MyAssetChecker : AssetChecker
 
 在Asset Checker窗口中，点击“Settings”属性右侧的“New”按钮，创建一个新的配置资产（`AssetCheckerSettings`），然后将该配置资产分配给“Settings”属性。
 
+![新建配置](./Documents~/imgs/img_sample_asset_checker_new_settings.png)
+
 选中该配置资产，在Inspector中，将前面创建的Asset Provider资产和Asset Checker资产分别分配给“Asset Provider”属性和“Asset Checkers”属性。“Asset Checkers”属性可以添加多个Asset Checker资产，检查流程中，会顺序执行这些Asset Checker资产。
 
 在Asset Checker窗口中，点击“Execute”按钮，执行检查流程。然后Asset Checker窗口中将会列出所有检查结果。
@@ -146,6 +150,14 @@ public class MyAssetChecker : AssetChecker
 ### 重新检查和尝试修复问题
 
 选中一条检查结果，在右侧的详细信息面板中，点击“Recheck”按钮执行重新检查，点击“Try Repair”按钮执行修复。如果检查结果被标记为不可修复，“Try Repair”按钮会被禁用。
+
+### 清空检查结果
+
+在Asset Checker的上下文菜单中，选择“Clear Check Results”选项来清空检查结果。
+
+### 切换检查结果图标样式
+
+在Asset Checker的上下文菜单中，选择“Result Icon Style”选项来切换图标样式。
 
 ### 自定义检查结果类别
 
@@ -160,6 +172,7 @@ public class MyAssetChecker : AssetChecker
 最后，在 `AssetChecker.CheckAsset` 方法中，为 `AssetCheckResult.customViewId` 设置对应的关键字。
 
 示例：
+
 ```csharp
 using GBG.AssetChecker.Editor.AssetChecker;
 using UnityEngine;
