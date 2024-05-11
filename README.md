@@ -1,52 +1,50 @@
-# Unity资产检查工具
+# Unity Asset Checking Tool
 
-易用且可扩展的资产检查工具。
+A user-friendly and extensible asset checking tool.
 
-![资产检查工具](./Documents~/imgs/img_sample_asset_checker_window.png)
+![AssetChecker](./Documents~/imgs/img_sample_asset_checker_window.png)
 
-[English](./README.md)
+[中文](./README_CN.md)
 
-## 功能
+## Features
 
-- 支持多套检查配置
-- 自定义要检查的资产范围
-- 自定义检查方式
-- 对资产顺序执行多个检查流程
-- 按结果类型筛选检查结果
-- 按自定义分类筛选检查结果
-- 对检查结果执行重新检查
-- 对检查结果尝试执行修复
-- 为检查结果创建自定义详细信息UI
-- 在重新打开检查器时，恢复上次检查的结果
-- 允许脱离UI，使用脚本发起检查流程
-- 支持多种检查结果UI样式
+- Supports multiple sets of check settings.
+- Customizable asset scope for checking.
+- Customizable check methods.
+- Executes multiple check workflows on assets in a specified order.
+- Filters check results by result type.
+- Filters check results by custom categories.
+- Allows re-checking of results.
+- Attempts to execute repairs on check results.
+- Supports custom details UI for check results.
+- Restores previous check results when reopening the checker.
+- Allows script-based initiation of check workflows independent of the UI.
+- Supports multiple styles for check result UI.
 
-## 支持的Unity版本
+## Supported Unity Versions
 
-Unity 2021.3 或更新版本。
+Unity 2021.3 or later.
 
-在Unity 2022.3之前的版本中，部分UI交互功能有所减弱，但不影响使用。
+In versions earlier than Unity 2022.3, some UI interaction features are slightly reduced but it does not affect usage.
 
-
-## 安装
+## Installation
 
 TODO
 
-## 如何使用
+## How to Use
 
-从菜单 “Tools/Bamboo/Asset Checker 打开资产快速访问工具窗口。
+### Creating Asset Provider Assets
 
-### 创建Asset Provider资产
+An Asset Provider is a subtype of `ScriptableObject` used to provide assets for the Asset Checker to check.
 
-Asset Provider是 `ScriptableObject` 的子类型，用于向Asset Checker提供要进行检查的资产。
+First, add a new type to your project that inherits from the `AssetProvider` class and implements the `GetAssets` method. This method should return an `IReadOnlyList<UnityEngine.Object>` containing the assets to be checked by the Asset Checker.
 
-首先，在项目中添加一个类型，继承 `AssetProvider` 类型，实现 `GetAssets` 方法，该方法返回 `IReadOnlyList<UnityEngine.Object>` 。Asset Checker将会检查返回结果中的资产。
+Next, create an instance of the Asset Provider asset for this type. Later, you will need to set this Asset Provider asset in the settings asset.
 
-然后创建该类型的Asset Provider资产，稍后需要将该Asset Provider资产设置到配置文件中。
+Example:
 
-示例：
 ```csharp
-using GBG.AssetChecker.Editor.AssetChecker;
+using GBG.AssetChecking.Editor;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,34 +53,35 @@ public class MyAssetProvider : AssetProvider
 {
     public override IReadOnlyList<Object> GetAssets()
     {
-        // 返回需要检查的资产列表
+        // Return the list of assets to be checked
         return Resources.FindObjectsOfTypeAll<GameObject>();
     }
 }
 ```
 
-内置的资产Asset Provider:
-- ExplicitAssetProvider：返回用户明确逐个指定的资产。
-- SelectionAssetProvider：返回当前在Project窗口中选中的资产，可配置筛选参数。
-- TextSearchAssetProvider：返回按给定文本内容搜索得到的资产，搜索结果与在Project窗口中搜索的结果相同。
+Built-in Asset Providers include:
+- ExplicitAssetProvider: Returns assets explicitly specified by the user.
+- SelectionAssetProvider: Returns assets currently selected in the Project window, with configurable filtering parameters.
+- TextSearchAssetProvider: Returns assets found by searching for specific text content, similar to searching in the Project window.
 
-可通过“Create/Asset Checker”菜单创建内置Asset Provider资产。
+You can create built-in Asset Provider assets through the "Create/Asset Checker" menu.
 
-### 创建Asset Checker资产
+### Creating Asset Checker Assets
 
-Asset Checker是 `ScriptableObject` 的子类型，用于执行资产检查流程。建议每个Asset Checker中只实现一项检查，通过组合多个Asset Checker的方式实现复杂的检查规则。
+Asset Checker is a subtype of `ScriptableObject` used to perform asset checking processes. It is recommended to implement only one check in each Asset Checker and combine multiple Asset Checkers to achieve complex check rules.
 
-首先，在项目中添加一个类型，继承 `AssetChecker` 类型，实现 `CheckAsset` 方法和 `RepairAsset` 方法。
+First, add a type to your project that inherits from the `AssetChecker` type and implements the `CheckAsset` and `RepairAsset` methods.
 
-`CheckAsset` 方法需要实现具体的检查逻辑，并返回 `AssetCheckResult` 类型的检查结果。如果资产检查通过，可以返回 `null` ，此时检查结果列表中不会记录此项检查结果。
+The `CheckAsset` method needs to implement the specific checking logic and return the check result of type `AssetCheckResult`. If the asset passes the check, you can return `null`, and this check result will not be recorded in the check result list.
 
-`RepairAsset` 方法需要实现对检查结果中的问题进行修复的逻辑。如果检查结果不可修复，需要在 `CheckAsset` 方法中将检查结果的 `repairable` 字段设为 `false` 。
+The `RepairAsset` method needs to implement the logic to repair issues in the check result. If the check result cannot be repaired, you need to set the `repairable` field of the check result to `false` in the `CheckAsset` method.
 
-然后创建该类型的Asset Checker资产，稍后需要将该Asset Checker资产设置到配置文件中。
+Then create an Asset Checker asset of that type. Later, you will need to set this Asset Checker asset in the settings asset.
 
-示例：
+Example:
+
 ```csharp
-using GBG.AssetChecker.Editor.AssetChecker;
+using GBG.AssetChecking.Editor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tests/My Asset Checker")]
@@ -93,13 +92,13 @@ public class MyAssetChecker : AssetChecker
         GameObject go = asset as GameObject;
         if (!go)
         {
-            // Asset Checker会自动为抛出的异常生成“Exception”类型的检查结果
+            // The Asset Checker will automatically generate a check result of type "Exception" for the thrown exception
             throw new System.ArgumentException("Asset must be an instance of type 'GameObject'.");
         }
 
         if (go.name.StartsWith("GO_"))
         {
-            // 对于“AllPass”类型的检查结果，也可以返回“null”
+            // For check results of type "AllPass," you can also return "null"
             return new AssetCheckResult
             {
                 type = CheckResultType.AllPass,
@@ -119,7 +118,7 @@ public class MyAssetChecker : AssetChecker
             type = CheckResultType.Error,
             categories = new string[] { "GameObject" },
             title = "GameObject Name Prefix - Invalid",
-            details = "GameObject name not starts with prefix 'GO_'.",
+            details = "GameObject name does not start with prefix 'GO_'.",
             asset = go,
             checker = this,
             repairable = true,
@@ -130,39 +129,42 @@ public class MyAssetChecker : AssetChecker
 
     public override void RepairAsset(AssetCheckResult checkResult, out bool allIssuesRepaired)
     {
-        // Asset Checker会自动为抛出的异常生成“Exception”类型的检查结果
-        throw new System.NotSupportedException("Issue can not be repaired");
+        // The Asset Checker will automatically generate a check result of type "Exception" for the thrown exception
+        throw new System.NotSupportedException("Issue cannot be repaired.");
     }
 }
 ```
 
-### 创建和设置配置文件资产
+### Creating and Setting up Settings Assets
 
-在Asset Checker窗口中，点击“Settings”属性右侧的“New”按钮，创建一个新的配置资产（`AssetCheckerSettings`），然后将该配置资产分配给“Settings”属性。
+Open the Asset Checker window by selecting "Tools/Bamboo/Asset Checker" from the menu.
 
-选中该配置资产，在Inspector中，将前面创建的Asset Provider资产和Asset Checker资产分别分配给“Asset Provider”属性和“Asset Checkers”属性。“Asset Checkers”属性可以添加多个Asset Checker资产，检查流程中，会顺序执行这些Asset Checker资产。
+In the Asset Checker window, click the "New" button next to the "Settings" property to create a new settings asset (`AssetCheckerSettings`). Then assign this settings asset to the "Settings" property.
 
-在Asset Checker窗口中，点击“Execute”按钮，执行检查流程。然后Asset Checker窗口中将会列出所有检查结果。
+Select the settings asset and in the Inspector, assign the previously created Asset Provider asset to the "Asset Provider" property, and the Asset Checker asset to the "Asset Checkers" property. The "Asset Checkers" property can have multiple Asset Checker assets, which will be executed sequentially during the checking process.
 
-### 重新检查和尝试修复问题
+In the Asset Checker window, click the "Execute" button to perform the checking process. The Asset Checker window will then display all the check results.
 
-选中一条检查结果，在右侧的详细信息面板中，点击“Recheck”按钮执行重新检查，点击“Try Repair”按钮执行修复。如果检查结果被标记为不可修复，“Try Repair”按钮会被禁用。
+### Rechecking and Attempting to Repair Issues
 
-### 自定义检查结果类别
+Select a check result and click the "Recheck" button in the detailed information panel on the right to perform a recheck. Click the "Try Repair" button to attempt a repair. If the check result is marked as unrepairable, the "Try Repair" button will be disabled.
 
-可以通过 `AssetCheckResult.categories` 字段为检查结果指定类别。每个检查结果可以同时属于多个类别。
+### Customizing Check Result Categories
 
-### 自定义检查结果详情UI
+You can specify categories for check results using the `AssetCheckResult.categories` field. Each check result can belong to multiple categories simultaneously.
 
-首先，在项目中添加一个类型，继承 `CustomDetailsView` 类型，实现UI构建和 `Bind` 方法。 `Bind` 中要根据检查结果设置UI。
+### Custom Check Result Details UI
 
-然后，在项目中添加一个类型，继承 `CustomViewProvider` 类型（ScriptableObject），实现 `GetDetailsView` 方法，该方法根据传入的 `customViewId` 参数返回 `CustomDetailsView` 实例。然后创建该类型的Custom View Provider资产，将该资产设置分配给配置文件的“Custom View Provider”属性。
+First, add a type to your project that inherits from the `CustomDetailsView` type. Implement the UI construction and `Bind` method in this type. In the `Bind` method, set up the UI based on the check result.
 
-最后，在 `AssetChecker.CheckAsset` 方法中，为 `AssetCheckResult.customViewId` 设置对应的关键字。
+Next, add a type to your project that inherits from the `CustomViewProvider` type (ScriptableObject). Implement the `GetDetailsView` method in this type, which returns an instance of `CustomDetailsView` based on the `customViewId` parameter passed in. Create an asset of this type, the Custom View Provider asset, and assign it to the "Custom View Provider" property in the settings asset.
 
-示例：
+Finally, in the `AssetChecker.CheckAsset` method, set the corresponding keyword for `AssetCheckResult.customViewId`.
+
+Example:
+
 ```csharp
-using GBG.AssetChecker.Editor.AssetChecker;
+using GBG.AssetChecking.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
