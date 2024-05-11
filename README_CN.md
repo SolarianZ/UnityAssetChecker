@@ -64,7 +64,7 @@ public class MyAssetProvider : AssetProvider
 - **SelectionAssetProvider** ：返回当前在Project窗口中选中的资产，可配置筛选参数。
 - **TextSearchAssetProvider** ：返回按给定文本内容搜索得到的资产，搜索结果与在Project窗口中搜索的结果相同。
 
-可通过 _**Create/Asset Checker**_ 菜单创建内置Asset Provider资产。
+可通过 _**Create/Bamboo/Asset Checker**_ 菜单创建内置Asset Provider资产。
 
 ### 创建Asset Checker资产
 

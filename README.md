@@ -64,7 +64,7 @@ Built-in Asset Providers include:
 - **SelectionAssetProvider**: Returns assets currently selected in the Project window, with configurable filtering parameters.
 - **TextSearchAssetProvider**: Returns assets found by searching for specific text content, similar to searching in the Project window.
 
-You can create built-in Asset Provider assets through the _**Create/Asset Checker**_ menu.
+You can create built-in Asset Provider assets through the _**Create/Bamboo/Asset Checker**_ menu.
 
 ### Creating Asset Checker Assets
 
