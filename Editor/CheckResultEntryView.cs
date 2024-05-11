@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     public class CheckResultEntryView : VisualElement
     {

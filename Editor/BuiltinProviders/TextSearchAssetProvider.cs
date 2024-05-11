@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UObject = UnityEngine.Object;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     /// <summary>
     /// Search the asset database using the search filter string.

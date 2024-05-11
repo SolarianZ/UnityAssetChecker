@@ -4,7 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     public partial class AssetCheckerWindow
     {
@@ -160,13 +160,8 @@ namespace GBG.AssetChecker.Editor.AssetChecker
             {
                 name = "ResultContainer",
             };
-            resultContainer.schedule.Execute(() =>
-            {
-                resultContainer.fixedPane.style.minWidth = 200;
-                resultContainer.flexedPane.style.minWidth = 200;
-            });
+            resultContainer.RegisterCallback<GeometryChangedEvent>(SetupResultPanes);
             root.Add(resultContainer);
-
 
             #region Result List
 
@@ -234,6 +229,19 @@ namespace GBG.AssetChecker.Editor.AssetChecker
             // Restore values
             UpdateExecutionControls();
             UpdateResultControls(true);
+        }
+
+        // Fix fixedPane null exception on Unity 2021
+        private void SetupResultPanes(GeometryChangedEvent evt)
+        {
+            TwoPaneSplitView resultContainer = (TwoPaneSplitView)evt.target;
+            resultContainer.UnregisterCallback<GeometryChangedEvent>(SetupResultPanes);
+
+            resultContainer.schedule.Execute(() =>
+            {
+                resultContainer.fixedPane.style.minWidth = 200;
+                resultContainer.flexedPane.style.minWidth = 200;
+            });
         }
 
         private void UpdateExecutionControls()

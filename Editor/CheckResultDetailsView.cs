@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UObject = UnityEngine.Object;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     public delegate void AssetRecheckedHandler(AssetCheckResult newResult, AssetCheckResult oldResult);
     public delegate void AssetRepairedHandler(AssetCheckResult result, bool allIssuesRepaired);

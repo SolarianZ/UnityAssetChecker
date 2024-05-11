@@ -5,7 +5,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 #endif
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     public class AssetCheckerSettings : ScriptableObject
     {

@@ -1,4 +1,4 @@
-﻿namespace GBG.AssetChecker.Editor.AssetChecker
+﻿namespace GBG.AssetChecking.Editor
 {
     public enum ResultIconStyle
     {

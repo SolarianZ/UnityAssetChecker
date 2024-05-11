@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UObject = UnityEngine.Object;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     public partial class AssetCheckerWindow : EditorWindow, IHasCustomMenu
     {

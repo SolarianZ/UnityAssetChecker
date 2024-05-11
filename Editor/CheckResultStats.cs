@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     [Serializable]
     public class CheckResultStats : ICloneable

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UObject = UnityEngine.Object;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     public abstract class AssetChecker : ScriptableObject
     {

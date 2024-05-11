@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     [FilePath("Library/com.greenbamboogames.gametoolkit/AssetChecker",
         FilePathAttribute.Location.ProjectFolder)]

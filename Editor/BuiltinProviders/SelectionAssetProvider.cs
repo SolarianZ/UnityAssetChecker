@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UObject = UnityEngine.Object;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     [CreateAssetMenu(menuName = "Bamboo/Asset Checker/Selection Asset Provider")]
     public class SelectionAssetProvider : AssetProvider

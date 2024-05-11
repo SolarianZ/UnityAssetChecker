@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace GBG.AssetChecker.Editor.AssetChecker
+namespace GBG.AssetChecking.Editor
 {
     public enum CheckResultType : uint
     {
