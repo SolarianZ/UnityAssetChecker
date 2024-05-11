@@ -60,15 +60,15 @@ public class MyAssetProvider : AssetProvider
 ```
 
 Built-in Asset Providers include:
-- ExplicitAssetProvider: Returns assets explicitly specified by the user.
-- SelectionAssetProvider: Returns assets currently selected in the Project window, with configurable filtering parameters.
-- TextSearchAssetProvider: Returns assets found by searching for specific text content, similar to searching in the Project window.
+- **ExplicitAssetProvider**: Returns assets explicitly specified by the user.
+- **SelectionAssetProvider**: Returns assets currently selected in the Project window, with configurable filtering parameters.
+- **TextSearchAssetProvider**: Returns assets found by searching for specific text content, similar to searching in the Project window.
 
-You can create built-in Asset Provider assets through the "Create/Asset Checker" menu.
+You can create built-in Asset Provider assets through the _**Create/Asset Checker**_ menu.
 
 ### Creating Asset Checker Assets
 
-Asset Checker is a subtype of `ScriptableObject` used to perform asset checking processes. It is recommended to implement only one check in each Asset Checker and combine multiple Asset Checkers to achieve complex check rules.
+Asset Checker is a subtype of `ScriptableObject` used to perform asset checking processes. It is **recommended** to implement only one check in each Asset Checker and combine multiple Asset Checkers to achieve complex check rules.
 
 First, add a type to your project that inherits from the `AssetChecker` type and implements the `CheckAsset` and `RepairAsset` methods.
 
@@ -98,7 +98,7 @@ public class MyAssetChecker : AssetChecker
 
         if (go.name.StartsWith("GO_"))
         {
-            // For check results of type "AllPass," you can also return "null"
+            // For check results of type "AllPass", you can also return "null"
             return new AssetCheckResult
             {
                 type = CheckResultType.AllPass,
@@ -137,27 +137,27 @@ public class MyAssetChecker : AssetChecker
 
 ### Creating and Setting up Settings Assets
 
-Open the Asset Checker window by selecting "Tools/Bamboo/Asset Checker" from the menu.
+Open the Asset Checker window by selecting **_Tools/Bamboo/Asset Checker_** from the menu.
 
-In the Asset Checker window, click the "New" button next to the "Settings" property to create a new settings asset (`AssetCheckerSettings`). Then assign this settings asset to the "Settings" property.
+In the Asset Checker window, click the **New** button next to the **Settings** property to create a new settings asset (`AssetCheckerSettings`). Then assign this settings asset to the **Settings** property.
 
 ![New Asset Checker Settings](./Documents~/imgs/img_sample_asset_checker_new_settings.png)
 
-Select the settings asset and in the Inspector, assign the previously created Asset Provider asset to the "Asset Provider" property, and the Asset Checker asset to the "Asset Checkers" property. The "Asset Checkers" property can have multiple Asset Checker assets, which will be executed sequentially during the checking process.
+Select the settings asset and in the Inspector, assign the previously created Asset Provider asset to the **Asset Provider** property, and the Asset Checker asset to the **Asset Checkers** property. The **Asset Checkers** property can have multiple Asset Checker assets, which will be executed sequentially during the checking process.
 
-In the Asset Checker window, click the "Execute" button to perform the checking process. The Asset Checker window will then display all the check results.
+In the Asset Checker window, click the **Execute** button to perform the checking process. The Asset Checker window will then display all the check results.
 
 ### Clear Check Results
 
-Select the "Clear Check Results" option from the context menu in Asset Checker to clear the check results.
+Select the **Clear Check Results** option from the context menu in Asset Checker to clear the check results.
 
 ### Switch Result Icon Style
 
-Select the "Result Icon Style" option from the context menu in Asset Checker to switch the icon style.
+Select the **Result Icon Style** option from the context menu in Asset Checker to switch the icon style.
 
 ### Rechecking and Attempting to Repair Issues
 
-Select a check result and click the "Recheck" button in the detailed information panel on the right to perform a recheck. Click the "Try Repair" button to attempt a repair. If the check result is marked as unrepairable, the "Try Repair" button will be disabled.
+Select a check result and click the **Recheck** button in the detailed information panel on the right to perform a recheck. Click the **Try Repair** button to attempt a repair. If the check result is marked as unrepairable, the **Try Repair** button will be disabled.
 
 ### Customizing Check Result Categories
 
@@ -167,7 +167,7 @@ You can specify categories for check results using the `AssetCheckResult.categor
 
 First, add a type to your project that inherits from the `CustomDetailsView` type. Implement the UI construction and `Bind` method in this type. In the `Bind` method, set up the UI based on the check result.
 
-Next, add a type to your project that inherits from the `CustomViewProvider` type (ScriptableObject). Implement the `GetDetailsView` method in this type, which returns an instance of `CustomDetailsView` based on the `customViewId` parameter passed in. Create an asset of this type, the Custom View Provider asset, and assign it to the "Custom View Provider" property in the settings asset.
+Next, add a type to your project that inherits from the `CustomViewProvider` type (`ScriptableObject`). Implement the `GetDetailsView` method in this type, which returns an instance of `CustomDetailsView` based on the `customViewId` parameter passed in. Create an asset of this type, the Custom View Provider asset, and assign it to the **Custom View Provider** property in the settings asset.
 
 Finally, in the `AssetChecker.CheckAsset` method, set the corresponding keyword for `AssetCheckResult.customViewId`.
 
