@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 
 namespace GBG.AssetChecking.Editor
 {
+    [CreateAssetMenu(menuName = "Bamboo/Asset Checker/Asset Checker Settings")]
     public class AssetCheckerSettings : ScriptableObject
     {
 #nullable enable
