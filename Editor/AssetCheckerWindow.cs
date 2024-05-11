@@ -388,6 +388,13 @@ namespace GBG.AssetChecking.Editor
                 });
             menu.AddSeparator("");
 
+            // Source Code
+            menu.AddItem(new GUIContent("Source Code"), false, () =>
+            {
+                Application.OpenURL("https://github.com/SolarianZ/UnityAssetChecker/tree/main");
+            });
+            menu.AddSeparator("");
+
             // Debug
             menu.AddItem(new GUIContent("[Debug] Inspect Local Cache Asset"), false, () =>
             {
