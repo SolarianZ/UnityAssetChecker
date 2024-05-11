@@ -391,7 +391,7 @@ namespace GBG.AssetChecking.Editor
             // Source Code
             menu.AddItem(new GUIContent("Source Code"), false, () =>
             {
-                Application.OpenURL("https://github.com/SolarianZ/UnityAssetChecker/tree/main");
+                Application.OpenURL("https://github.com/SolarianZ/UnityAssetChecker");
             });
             menu.AddSeparator("");
 
