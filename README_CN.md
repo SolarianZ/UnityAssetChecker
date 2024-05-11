@@ -29,7 +29,9 @@ Unity 2021.3 或更新版本。
 
 ## 安装
 
-TODO
+[![openupm](https://img.shields.io/npm/v/com.greenbamboogames.assetchecker?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.cn/packages/com.greenbamboogames.assetchecker/)
+
+从 [OpenUPM](https://openupm.cn/packages/com.greenbamboogames.assetchecker) 安装，或者直接将此仓库克隆到项目的Packages文件夹下。
 
 ## 如何使用
 

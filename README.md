@@ -29,7 +29,9 @@ In versions earlier than Unity 2022.3, some UI interaction features are slightly
 
 ## Installation
 
-TODO
+[![openupm](https://img.shields.io/npm/v/com.greenbamboogames.assetchecker?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.greenbamboogames.assetchecker/)
+
+Install this package via [OpenUPM](https://openupm.com/packages/com.greenbamboogames.assetchecker), or clone this repository directly into the Packages folder of your project.
 
 ## How to Use
 

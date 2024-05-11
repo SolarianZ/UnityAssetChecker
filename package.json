@@ -1,6 +1,6 @@
 {
   "name": "com.greenbamboogames.assetchecker",
-  "version": "1.0.0-preview",
+  "version": "1.0.0",
   "displayName": "Asset Checker!",
   "description": "Easy to use and extensible asset checking tool.",
   "unity": "2021.3",
