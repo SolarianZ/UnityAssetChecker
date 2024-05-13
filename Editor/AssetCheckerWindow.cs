@@ -50,6 +50,7 @@ namespace GBG.AssetChecking.Editor
         {
             _settings = LocalCache.GetSettingsAsset();
             _stats = LocalCache.GetCheckResultStats();
+            _nullResultCount = _stats.nullResult;
             _checkResults.AddRange(LocalCache.GetCheckResults());
             UpdateFilteredCheckResults();
         }
