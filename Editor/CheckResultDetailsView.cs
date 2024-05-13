@@ -143,7 +143,9 @@ namespace GBG.AssetChecking.Editor
             _detailsLabel = new Label
             {
                 name = "SelectableDetailsLabel",
-                enableRichText = true,
+#if UNITY_2021_3_OR_NEWER
+                enableRichText = true, 
+#endif
                 style =
                 {
                     whiteSpace = WhiteSpace.Normal,
