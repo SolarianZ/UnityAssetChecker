@@ -3,6 +3,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UDebug = UnityEngine.Debug;
 using UObject = UnityEngine.Object;
 
 namespace GBG.AssetChecking.Editor
@@ -46,7 +47,7 @@ namespace GBG.AssetChecking.Editor
                 }
             };
 #if UNITY_2022_3_OR_NEWER
-            ((ITextSelection)_titleLabel).isSelectable = true; 
+            ((ITextSelection)_titleLabel).isSelectable = true;
 #endif
             Add(_titleLabel);
 
@@ -87,7 +88,7 @@ namespace GBG.AssetChecking.Editor
                 }
             };
 #if UNITY_2022_3_OR_NEWER
-            ((ITextSelection)_typeLabel).isSelectable = true; 
+            ((ITextSelection)_typeLabel).isSelectable = true;
 #endif
             typeContainer.Add(_typeLabel);
 
@@ -101,7 +102,7 @@ namespace GBG.AssetChecking.Editor
                 }
             };
 #if UNITY_2022_3_OR_NEWER
-            ((ITextSelection)_categoriesLabel).isSelectable = true; 
+            ((ITextSelection)_categoriesLabel).isSelectable = true;
 #endif
             typeContainer.Add(_categoriesLabel);
 
@@ -144,7 +145,7 @@ namespace GBG.AssetChecking.Editor
             {
                 name = "SelectableDetailsLabel",
 #if UNITY_2021_3_OR_NEWER
-                enableRichText = true, 
+                enableRichText = true,
 #endif
                 style =
                 {
@@ -156,7 +157,7 @@ namespace GBG.AssetChecking.Editor
                 }
             };
 #if UNITY_2022_3_OR_NEWER
-            ((ITextSelection)_detailsLabel).isSelectable = true; 
+            ((ITextSelection)_detailsLabel).isSelectable = true;
 #endif
             _detailsScrollView.contentContainer.Add(_detailsLabel);
 
@@ -291,7 +292,7 @@ namespace GBG.AssetChecking.Editor
                     return;
                 }
 
-                Debug.LogError($"[{AssetCheckerWindow.LogTag}] Can not find custom details view of id {_selectedResult.customViewId}",
+                UDebug.LogError($"[{AssetChecker.LogTag}] Can not find custom details view of id '{_selectedResult.customViewId}'.",
                     customViewProvider);
             }
 
@@ -432,7 +433,7 @@ namespace GBG.AssetChecking.Editor
                     }
                 };
 #if UNITY_2022_3_OR_NEWER
-                ((ITextSelection)_objectPathLabel).isSelectable = true; 
+                ((ITextSelection)_objectPathLabel).isSelectable = true;
 #endif
                 Add(_objectPathLabel);
             }

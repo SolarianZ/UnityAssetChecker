@@ -10,22 +10,16 @@ namespace GBG.AssetChecking.Editor
         public int notImportant;
         public int allPass;
         public int exception;
+        public int nullResult;
 
-        internal CheckResultStats() { }
 
-        public CheckResultStats(int error, int warning,
-            int notImportant, int allPass, int exception)
-        {
-            this.error = error;
-            this.warning = warning;
-            this.notImportant = notImportant;
-            this.allPass = allPass;
-            this.exception = exception;
-        }
-
-        public int GetTotal()
+        public int GetTotal(bool includeNullResult)
         {
             int total = error + warning + notImportant + allPass + exception;
+            if (includeNullResult)
+            {
+                total += nullResult;
+            }
             return total;
         }
 
@@ -36,11 +30,20 @@ namespace GBG.AssetChecking.Editor
             notImportant = 0;
             allPass = 0;
             exception = 0;
+            nullResult = 0;
         }
 
         public object Clone()
         {
-            return new CheckResultStats(error, warning, notImportant, allPass, exception);
+            return new CheckResultStats
+            {
+                error = error,
+                warning = warning,
+                notImportant = notImportant,
+                allPass = allPass,
+                exception = exception,
+                nullResult = nullResult,
+            };
         }
     }
 }

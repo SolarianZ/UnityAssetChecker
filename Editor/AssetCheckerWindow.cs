@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UDebug = UnityEngine.Debug;
 using UObject = UnityEngine.Object;
 
 namespace GBG.AssetChecking.Editor
@@ -11,9 +12,6 @@ namespace GBG.AssetChecking.Editor
     public partial class AssetCheckerWindow : EditorWindow, IHasCustomMenu
     {
         #region Static
-
-        internal const string LogTag = "AssetChecker";
-
 
         [MenuItem("Tools/Bamboo/Asset Checker")]
         [MenuItem("Window/Asset Management/Asset Checker")]
@@ -39,6 +37,7 @@ namespace GBG.AssetChecking.Editor
         [SerializeField]
         private AssetCheckerSettings _settings;
         private CheckResultStats _stats;
+        private int _nullResultCount;
         private readonly List<AssetCheckResult> _checkResults = new List<AssetCheckResult>();
         private readonly List<string> _resultCategories = new List<string> { AssetCheckerLocalCache.AllCategories };
         private readonly List<AssetCheckResult> _filteredCheckResults = new List<AssetCheckResult>();
@@ -73,16 +72,16 @@ namespace GBG.AssetChecking.Editor
         {
             if (!_settings)
             {
-                string errorMessage = "Execute asset checker failed. Settings not specified.";
-                Debug.LogError($"[{LogTag}] {errorMessage}", this);
+                string errorMessage = "Asset checker execution failed. Settings not specified.";
+                UDebug.LogError($"[{AssetChecker.LogTag}] {errorMessage}", this);
                 EditorUtility.DisplayDialog("Error", errorMessage, "Ok");
                 return;
             }
 
             if (!_settings.assetProvider)
             {
-                string errorMessage = "Execute asset checker failed. Asset provider not specified in the settings.";
-                Debug.LogError($"[{LogTag}] {errorMessage}", _settings);
+                string errorMessage = "Asset checker execution failed. Asset provider not specified in the settings.";
+                UDebug.LogError($"[{AssetChecker.LogTag}] {errorMessage}", _settings);
                 EditorUtility.DisplayDialog("Error", errorMessage, "Ok");
                 return;
             }
@@ -90,72 +89,23 @@ namespace GBG.AssetChecking.Editor
             AssetChecker[] checkers = _settings.assetCheckers;
             if (checkers == null || checkers.Length == 0)
             {
-                string errorMessage = "Execute asset checker failed. Asset checker not specified in the settings.";
-                Debug.LogError($"[{LogTag}] {errorMessage}", _settings);
+                string errorMessage = "Asset checker execution failed. Asset checker not specified in the settings.";
+                UDebug.LogError($"[{AssetChecker.LogTag}] {errorMessage}", _settings);
                 EditorUtility.DisplayDialog("Error", errorMessage, "Ok");
                 return;
             }
 
-            _checkResults.Clear();
-            IReadOnlyList<UObject> assets = _settings.assetProvider.GetAssets();
-            if (assets == null || assets.Count == 0)
+            ExecutionResult executionResult = AssetChecker.Execute(_settings.assetProvider,
+                _settings.assetCheckers, _checkResults, out _nullResultCount, logContext: _settings);
+
+            if (executionResult == ExecutionResult.Failure)
             {
-                UpdatePersistentResultData();
-                UpdateFilteredCheckResults();
-                UpdateResultControls(true);
                 return;
-            }
-
-            bool hasNullChecker = false;
-            for (int i = 0; i < assets.Count; i++)
-            {
-                UObject asset = assets[i];
-                for (int j = 0; j < checkers.Length; j++)
-                {
-                    AssetChecker checker = checkers[j];
-                    if (!checker)
-                    {
-                        hasNullChecker = true;
-                        continue;
-                    }
-
-                    try
-                    {
-                        AssetCheckResult result = checker.CheckAsset(asset);
-                        if (result != null)
-                        {
-                            _checkResults.Add(result);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        AssetCheckResult result = new AssetCheckResult
-                        {
-                            type = CheckResultType.Exception,
-                            categories = new string[] { "Exception" },
-                            title = e.GetType().Name,
-                            details = e.Message,
-                            asset = asset,
-                            checker = checker,
-                            repairable = false,
-                            customData = null,
-                            customViewId = null,
-                        };
-                        _checkResults.Add(result);
-                    }
-                }
             }
 
             UpdatePersistentResultData();
             UpdateFilteredCheckResults();
             UpdateResultControls(true);
-
-            if (hasNullChecker)
-            {
-                string errorMessage = "There are null asset checkers in the settings, please check.";
-                Debug.LogError($"[{LogTag}] {errorMessage}", _settings);
-                EditorUtility.DisplayDialog("Error", errorMessage, "Ok");
-            }
         }
 
         public void SetCheckResultTypeFilter(CheckResultTypes filter)
@@ -276,7 +226,7 @@ namespace GBG.AssetChecking.Editor
         private void UpdatePersistentResultData()
         {
             _stats.Reset();
-            _resultCategories.Clear();
+            _stats.nullResult = _nullResultCount;
 
             for (int i = 0; i < _checkResults.Count; i++)
             {
@@ -314,6 +264,7 @@ namespace GBG.AssetChecking.Editor
             CheckResultTypes selectedTypes = LocalCache.GetCheckResultTypeFilter();
             string selectedCategory = LocalCache.GetCheckResultCategoryFilter();
 
+            _resultCategories.Clear();
             _filteredCheckResults.Clear();
             HashSet<string> categories = new HashSet<string>();
 

@@ -194,7 +194,7 @@ namespace GBG.AssetChecking.Editor
                 name = "ResultListView",
                 itemsSource = _filteredCheckResults,
 #if UNITY_2021_3_OR_NEWER
-                fixedItemHeight = 28, 
+                fixedItemHeight = 28,
 #else
                 itemHeight = 28,
 #endif
@@ -314,9 +314,9 @@ namespace GBG.AssetChecking.Editor
                 return;
             }
 
-            _resultStatsLabel.text = $"Total: {_stats.GetTotal()}  Filtered: {_filteredCheckResults.Count}  " +
+            _resultStatsLabel.text = $"Total: {_stats.GetTotal(false)}  Filtered: {_filteredCheckResults.Count}  " +
                $"Error: {_stats.error}  Warning: {_stats.warning}  Not Important: {_stats.notImportant}  " +
-               $"All Pass: {_stats.allPass}  Exception: {_stats.exception}";
+               $"All Pass: {_stats.allPass}  Exception: {_stats.exception}  (Null Result: {_stats.nullResult})";
             RefreshResultListView();
 
             if (clearSelection)
