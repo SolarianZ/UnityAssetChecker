@@ -23,7 +23,7 @@ A user-friendly and extensible asset checking tool.
 
 ## Supported Unity Versions
 
-Unity 2021.3 or later.
+Unity 2020.3 or later.
 
 In versions earlier than Unity 2022.3, some UI interaction features are slightly reduced but it does not affect usage.
 
