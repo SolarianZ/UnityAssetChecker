@@ -212,3 +212,7 @@ public class MyCustomDetailsView : CustomDetailsView
     }
 }
 ```
+
+### Launch the checking process through code (no UI)
+
+Invoke the static method `AssetChecker.Execute` to launch the checking process.

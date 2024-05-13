@@ -212,3 +212,7 @@ public class MyCustomDetailsView : CustomDetailsView
     }
 }
 ```
+
+### 通过代码发起检查流程（不使用UI）
+
+调用静态方法 `AssetChecker.Execute` 发起检查流程。
