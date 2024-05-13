@@ -15,7 +15,7 @@ namespace GBG.AssetChecking.Editor
         private Button _executeButton;
         private Label _resultStatsLabel;
         private EnumFlagsField _resultTypeFilterField;
-        private DropdownField _resultCategoryFilterField;
+        private PopupField<string> _resultCategoryFilterField; // DropdownField is not supported in Unity 2020
         private ListView _resultListView;
         private CheckResultDetailsView _resultDetailsView;
 
@@ -68,7 +68,6 @@ namespace GBG.AssetChecking.Editor
                     flexGrow = 1,
                 }
             };
-            _settingsField.bindingPath = nameof(_settings);
             _settingsField.RegisterValueChangedCallback(OnSettingsObjectChanged);
             settingsAssetContainer.Add(_settingsField);
 
@@ -180,7 +179,7 @@ namespace GBG.AssetChecking.Editor
             resultListContainer.Add(_resultTypeFilterField);
 
             // Category Filter
-            _resultCategoryFilterField = new DropdownField
+            _resultCategoryFilterField = new PopupField<string>
             {
                 name = "ResultCategoryFilterField",
                 choices = _resultCategories,
@@ -194,15 +193,23 @@ namespace GBG.AssetChecking.Editor
             {
                 name = "ResultListView",
                 itemsSource = _filteredCheckResults,
-                fixedItemHeight = 28,
+#if UNITY_2021_3_OR_NEWER
+                fixedItemHeight = 28, 
+#else
+                itemHeight = 28,
+#endif
                 selectionType = SelectionType.Single,
                 makeItem = MakeResultListItem,
                 bindItem = BindResultListItem,
+                style =
+                {
+                    flexGrow = 1, // Fix display issue on Unity 2020
+                }
             };
 #if UNITY_2022_3_OR_NEWER
-            _resultListView.selectedIndicesChanged += OnCheckResultSelectionChanged;
+            _resultListView.selectionChanged += OnCheckResultSelectionChanged;
 #else
-            _resultListView.onSelectedIndicesChange += OnCheckResultSelectionChanged;
+            _resultListView.onSelectionChange += OnCheckResultSelectionChanged;
 #endif
             resultListContainer.Add(_resultListView);
 
@@ -223,8 +230,9 @@ namespace GBG.AssetChecking.Editor
             #endregion
 
 
-            // SelectResult properties
-            root.Bind(new SerializedObject(this));
+            // SelectResult properties - Not work on Unity 2020
+            //_settingsField.bindingPath = nameof(_settings); 
+            //root.Bind(new SerializedObject(this));
 
             // Restore values
             UpdateExecutionControls();
@@ -309,7 +317,7 @@ namespace GBG.AssetChecking.Editor
             _resultStatsLabel.text = $"Total: {_stats.GetTotal()}  Filtered: {_filteredCheckResults.Count}  " +
                $"Error: {_stats.error}  Warning: {_stats.warning}  Not Important: {_stats.notImportant}  " +
                $"All Pass: {_stats.allPass}  Exception: {_stats.exception}";
-            _resultListView.Rebuild();
+            RefreshResultListView();
 
             if (clearSelection)
             {
@@ -331,10 +339,19 @@ namespace GBG.AssetChecking.Editor
             item.Bind(result);
         }
 
-        private void OnCheckResultSelectionChanged(IEnumerable<int> selectedIndices)
+        private void OnCheckResultSelectionChanged(IEnumerable<object> selectedItems)
         {
             AssetCheckResult result = (AssetCheckResult)_resultListView.selectedItem;
             _resultDetailsView.SelectResult(result);
+        }
+
+        private void RefreshResultListView()
+        {
+#if UNITY_2021_3_OR_NEWER
+            _resultListView.Rebuild();
+#else
+            _resultListView.Refresh();
+#endif
         }
     }
 }

@@ -209,6 +209,7 @@ namespace GBG.AssetChecking.Editor
 
         private void OnSettingsObjectChanged(ChangeEvent<UObject> evt)
         {
+            _settings = (AssetCheckerSettings)evt.newValue; // Binding not work on Unity 2020
             LocalCache.SetSettingsAsset(_settings);
             UpdateExecutionControls();
         }
@@ -237,7 +238,7 @@ namespace GBG.AssetChecking.Editor
         public void SetCheckResultIconStyle(ResultIconStyle iconStyle)
         {
             LocalCache.SetCheckResultIconStyle(iconStyle);
-            _resultListView.Rebuild();
+            RefreshResultListView();
         }
 
         private void OnAssetRechecked(AssetCheckResult newResult, AssetCheckResult oldResult)
@@ -370,21 +371,21 @@ namespace GBG.AssetChecking.Editor
                 () =>
                 {
                     LocalCache.SetCheckResultIconStyle(ResultIconStyle.Style1);
-                    _resultListView.Rebuild();
+                    RefreshResultListView();
                 });
             menu.AddItem(new GUIContent("Result Icon Style/Style 2"),
                 LocalCache.GetCheckResultIconStyle() == ResultIconStyle.Style2,
                 () =>
                 {
                     LocalCache.SetCheckResultIconStyle(ResultIconStyle.Style2);
-                    _resultListView.Rebuild();
+                    RefreshResultListView();
                 });
             menu.AddItem(new GUIContent("Result Icon Style/Style 3"),
                 LocalCache.GetCheckResultIconStyle() == ResultIconStyle.Style3,
                 () =>
                 {
                     LocalCache.SetCheckResultIconStyle(ResultIconStyle.Style3);
-                    _resultListView.Rebuild();
+                    RefreshResultListView();
                 });
             menu.AddSeparator("");
 
