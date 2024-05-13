@@ -209,6 +209,7 @@ namespace GBG.AssetChecking.Editor
 
         private void OnSettingsObjectChanged(ChangeEvent<UObject> evt)
         {
+            _settings = (AssetCheckerSettings)evt.newValue; // Binding not work on Unity 2020
             LocalCache.SetSettingsAsset(_settings);
             UpdateExecutionControls();
         }

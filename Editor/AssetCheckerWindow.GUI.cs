@@ -68,7 +68,6 @@ namespace GBG.AssetChecking.Editor
                     flexGrow = 1,
                 }
             };
-            _settingsField.bindingPath = nameof(_settings);
             _settingsField.RegisterValueChangedCallback(OnSettingsObjectChanged);
             settingsAssetContainer.Add(_settingsField);
 
@@ -231,8 +230,9 @@ namespace GBG.AssetChecking.Editor
             #endregion
 
 
-            // SelectResult properties
-            root.Bind(new SerializedObject(this));
+            // SelectResult properties - Not work on Unity 2020
+            //_settingsField.bindingPath = nameof(_settings); 
+            //root.Bind(new SerializedObject(this));
 
             // Restore values
             UpdateExecutionControls();
