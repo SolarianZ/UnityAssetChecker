@@ -16,6 +16,7 @@ namespace GBG.AssetChecking.Editor
 
 
         [MenuItem("Tools/Bamboo/Asset Checker")]
+        [MenuItem("Window/Asset Management/Asset Checker")]
         private static void Open()
         {
             GetWindow<AssetCheckerWindow>("AssetCheckerWindow");
