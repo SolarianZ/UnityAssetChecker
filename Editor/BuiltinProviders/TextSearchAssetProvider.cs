@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
+using UDebug = UnityEngine.Debug;
 using UObject = UnityEngine.Object;
 
 namespace GBG.AssetChecking.Editor
@@ -49,6 +50,11 @@ namespace GBG.AssetChecking.Editor
                 if (ignoreDefaultAssets && asset is DefaultAsset)
                 {
                     continue;
+                }
+
+                if (!asset)
+                {
+                    UDebug.LogError($"[{AssetChecker.LogTag}] The asset exists but cannot be loaded: {path}.", asset);
                 }
 
                 objects.Add(asset);
