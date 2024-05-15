@@ -271,7 +271,6 @@ namespace GBG.AssetChecking.Editor
             CheckResultTypes selectedTypes = LocalCache.GetCheckResultTypeFilter();
             string selectedCategory = LocalCache.GetCheckResultCategoryFilter();
 
-            _resultCategories.Clear();
             _filteredCheckResults.Clear();
             HashSet<string> categories = new HashSet<string>();
 
@@ -288,7 +287,8 @@ namespace GBG.AssetChecking.Editor
                         }
 
                         string trimmedCategory = category.Trim();
-                        if (trimmedCategory == AssetCheckerLocalCache.AllCategories)
+                        if (trimmedCategory == AssetCheckerLocalCache.AllCategories ||
+                            trimmedCategory == AssetCheckerLocalCache.Repairable)
                         {
                             continue;
                         }
@@ -303,16 +303,18 @@ namespace GBG.AssetChecking.Editor
                     continue;
                 }
 
-                if (selectedCategory == AssetCheckerLocalCache.AllCategories ||
-                   (result.categories?.Contains(selectedCategory) ?? false))
+                if ((selectedCategory == AssetCheckerLocalCache.AllCategories) ||
+                    (selectedCategory == AssetCheckerLocalCache.Repairable && result.repairable) ||
+                    (result.categories?.Contains(selectedCategory) ?? false))
                 {
                     _filteredCheckResults.Add(result);
                 }
             }
 
+            _resultCategories.Clear();
+            _resultCategories.Add(AssetCheckerLocalCache.AllCategories); // Option for no category filter
+            _resultCategories.Add(AssetCheckerLocalCache.Repairable);
             _resultCategories.AddRange(categories);
-            _resultCategories.RemoveAll(category => string.IsNullOrWhiteSpace(category) || category == AssetCheckerLocalCache.AllCategories);
-            _resultCategories.Insert(0, AssetCheckerLocalCache.AllCategories); // Option for no category filter
         }
 
 

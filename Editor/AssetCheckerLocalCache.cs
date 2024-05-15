@@ -11,6 +11,7 @@ namespace GBG.AssetChecking.Editor
     internal class AssetCheckerLocalCache : ScriptableSingleton<AssetCheckerLocalCache>
     {
         public const string AllCategories = "All Categories";
+        public const string Repairable = "Repairable";
 
         [SerializeField]
         private AssetCheckerSettings _settingsAsset;
