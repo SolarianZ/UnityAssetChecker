@@ -41,7 +41,7 @@ namespace GBG.AssetChecking.Editor
         private readonly List<AssetCheckResult> _checkResults = new List<AssetCheckResult>();
         private readonly List<string> _resultCategories = new List<string> { AssetCheckerLocalCache.AllCategories };
         private readonly List<AssetCheckResult> _filteredCheckResults = new List<AssetCheckResult>();
-        internal AssetCheckerLocalCache LocalCache => AssetCheckerLocalCache.instance;
+        internal static AssetCheckerLocalCache LocalCache => AssetCheckerLocalCache.instance;
 
 
         #region Unity Message
@@ -136,6 +136,12 @@ namespace GBG.AssetChecking.Editor
             UpdateResultControls(true);
         }
 
+        private void OnShowResultEntryAssetIconChanged(ChangeEvent<bool> evt)
+        {
+            LocalCache.SetShowResultEntryAssetIcon(evt.newValue);
+            RefreshResultListView();
+        }
+
         public AssetCheckResult[] GetCheckResults()
         {
             return _checkResults.ToArray();
@@ -182,12 +188,12 @@ namespace GBG.AssetChecking.Editor
             return settings;
         }
 
-        public ResultIconStyle GetCheckResultIconStyle()
+        public ResultTypeIconStyle GetCheckResultIconStyle()
         {
-            return LocalCache.GetCheckResultIconStyle();
+            return LocalCache.GetCheckResultTypeIconStyle();
         }
 
-        public void SetCheckResultIconStyle(ResultIconStyle iconStyle)
+        public void SetCheckResultIconStyle(ResultTypeIconStyle iconStyle)
         {
             LocalCache.SetCheckResultIconStyle(iconStyle);
             RefreshResultListView();
@@ -314,34 +320,6 @@ namespace GBG.AssetChecking.Editor
 
         public void AddItemsToMenu(GenericMenu menu)
         {
-            // Clear Check Results
-            menu.AddItem(new GUIContent("Clear Check Results"), false, ClearCheckResults);
-            menu.AddSeparator("");
-
-            // Result Icon Style
-            menu.AddItem(new GUIContent("Result Icon Style/Style 1"),
-                LocalCache.GetCheckResultIconStyle() == ResultIconStyle.Style1,
-                () =>
-                {
-                    LocalCache.SetCheckResultIconStyle(ResultIconStyle.Style1);
-                    RefreshResultListView();
-                });
-            menu.AddItem(new GUIContent("Result Icon Style/Style 2"),
-                LocalCache.GetCheckResultIconStyle() == ResultIconStyle.Style2,
-                () =>
-                {
-                    LocalCache.SetCheckResultIconStyle(ResultIconStyle.Style2);
-                    RefreshResultListView();
-                });
-            menu.AddItem(new GUIContent("Result Icon Style/Style 3"),
-                LocalCache.GetCheckResultIconStyle() == ResultIconStyle.Style3,
-                () =>
-                {
-                    LocalCache.SetCheckResultIconStyle(ResultIconStyle.Style3);
-                    RefreshResultListView();
-                });
-            menu.AddSeparator("");
-
             // Source Code
             menu.AddItem(new GUIContent("Source Code"), false, () =>
             {

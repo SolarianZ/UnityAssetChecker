@@ -1,6 +1,6 @@
 ﻿namespace GBG.AssetChecking.Editor
 {
-    public enum ResultIconStyle
+    public enum ResultTypeIconStyle
     {
         Style1,
         Style2,

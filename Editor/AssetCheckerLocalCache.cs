@@ -21,14 +21,16 @@ namespace GBG.AssetChecking.Editor
         [SerializeField]
         private CheckResultTypes _resultTypeFilter =
 #if UNITY_2022_3_OR_NEWER
-            CheckResultTypes.AllTypes; 
+            CheckResultTypes.AllTypes;
 #else
             (CheckResultTypes)~0U;
 #endif
         [SerializeField]
         private string _resultCategoryFilter = AllCategories;
         [SerializeField]
-        private ResultIconStyle _resultIconStyle = ResultIconStyle.Style2;
+        private ResultTypeIconStyle _resultIconStyle = ResultTypeIconStyle.Style2;
+        [SerializeField]
+        private bool _showResultEntryAssetIcon = true;
 
         public CustomViewProvider InstantCustomViewProvider { get; set; }
 
@@ -93,14 +95,25 @@ namespace GBG.AssetChecking.Editor
             Save(true);
         }
 
-        public ResultIconStyle GetCheckResultIconStyle()
+        public ResultTypeIconStyle GetCheckResultTypeIconStyle()
         {
             return _resultIconStyle;
         }
 
-        public void SetCheckResultIconStyle(ResultIconStyle iconStyle)
+        public void SetCheckResultIconStyle(ResultTypeIconStyle iconStyle)
         {
             _resultIconStyle = iconStyle;
+            Save(true);
+        }
+
+        public bool GetShowResultEntryAssetIcon()
+        {
+            return _showResultEntryAssetIcon;
+        }
+
+        public void SetShowResultEntryAssetIcon(bool showResultEntryAssetIcon)
+        {
+            _showResultEntryAssetIcon = showResultEntryAssetIcon;
             Save(true);
         }
     }

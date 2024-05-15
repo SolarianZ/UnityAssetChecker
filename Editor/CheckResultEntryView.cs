@@ -7,6 +7,7 @@ namespace GBG.AssetChecking.Editor
     public class CheckResultEntryView : VisualElement
     {
         private readonly Image _typeImage;
+        private readonly Image _assetImage;
         private readonly Label _label;
         private readonly Image _repairableImage;
 
@@ -30,6 +31,22 @@ namespace GBG.AssetChecking.Editor
                 }
             };
             Add(_typeImage);
+
+            _assetImage = new Image
+            {
+                name = "AssetImage",
+                style =
+                {
+                    width = 20,
+                    minWidth = 20,
+                    maxWidth = 20,
+                    height = 20,
+                    minHeight = 20,
+                    maxHeight = 20,
+                    alignSelf = Align.Center,
+                }
+            };
+            Add(_assetImage);
 
             _label = new Label
             {
@@ -67,8 +84,19 @@ namespace GBG.AssetChecking.Editor
 
         public void Bind(AssetCheckResult result)
         {
-            ResultIconStyle iconStyle = AssetCheckerLocalCache.instance.GetCheckResultIconStyle();
+            ResultTypeIconStyle iconStyle = AssetCheckerLocalCache.instance.GetCheckResultTypeIconStyle();
             _typeImage.image = result.type.GetResultTypeIcon(iconStyle);
+            if (AssetCheckerLocalCache.instance.GetShowResultEntryAssetIcon())
+            {
+                _assetImage.style.display = DisplayStyle.Flex;
+                _assetImage.image = result.asset != null
+                    ? AssetPreview.GetMiniThumbnail(result.asset)
+                    : null;
+            }
+            else
+            {
+                _assetImage.style.display = DisplayStyle.None;
+            }
             _label.text = result.title;
             _repairableImage.style.display = result.repairable
                 ? DisplayStyle.Flex

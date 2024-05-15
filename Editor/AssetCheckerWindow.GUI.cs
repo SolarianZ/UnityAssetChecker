@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -19,13 +20,82 @@ namespace GBG.AssetChecking.Editor
         private ListView _resultListView;
         private CheckResultDetailsView _resultDetailsView;
 
+        private GUIContent _helpButtonContent;
+        private GUIStyle _helpButtonStyle;
+
         #endregion
 
+
+        private void ShowButton(Rect position)
+        {
+            if (_helpButtonContent == null)
+            {
+                _helpButtonStyle = GUI.skin.FindStyle("IconButton");
+            }
+
+            if (GUI.Button(position, EditorGUIUtility.IconContent("_Help"), GUI.skin.FindStyle("IconButton")))
+            {
+                Application.OpenURL("https://github.com/SolarianZ/UnityAssetChecker");
+            }
+        }
 
         private void CreateGUI()
         {
             minSize = new Vector2(500, 400);
             VisualElement root = rootVisualElement;
+
+
+            #region Toolbar
+
+            // Toolbar
+            Toolbar toolbar = new Toolbar
+            {
+                name = "Toolbar",
+                style =
+                {
+                    justifyContent = Justify.SpaceBetween,
+                }
+            };
+            root.Add(toolbar);
+
+            VisualElement styleContainer = new VisualElement
+            {
+                name = "StyleContainer",
+                style =
+                {
+                    flexDirection = FlexDirection.Row,
+                }
+            };
+            toolbar.Add(styleContainer);
+
+            // Type Icon Style
+            ToolbarMenu typeIconStyleMenu = new ToolbarMenu
+            {
+                name = "TypeIconStyleMenu",
+                text = GetResultTypeIconStyleName(LocalCache.GetCheckResultTypeIconStyle())
+            };
+            InitializeTypeIconStyleMenu(typeIconStyleMenu);
+            styleContainer.Add(typeIconStyleMenu);
+
+            // Asset Icon
+            ToolbarToggle assetIconToggle = new ToolbarToggle
+            {
+                name = "AssetIconToggle",
+                text = "Show Asset Icon",
+                value = LocalCache.GetShowResultEntryAssetIcon(),
+            };
+            assetIconToggle.RegisterValueChangedCallback(OnShowResultEntryAssetIconChanged);
+            styleContainer.Add(assetIconToggle);
+
+            // Clear Button
+            ToolbarButton clearResultsButton = new ToolbarButton(ClearCheckResults)
+            {
+                name = "ClearResultsButton",
+                text = "Clear Check Results",
+            };
+            toolbar.Add(clearResultsButton);
+
+            #endregion
 
 
             #region Settings
@@ -352,6 +422,56 @@ namespace GBG.AssetChecking.Editor
 #else
             _resultListView.Refresh();
 #endif
+        }
+
+        private void InitializeTypeIconStyleMenu(ToolbarMenu menu)
+        {
+            ResultTypeIconStyle currentStyle = LocalCache.GetCheckResultTypeIconStyle();
+
+            menu.menu.AppendAction(GetResultTypeIconStyleName(ResultTypeIconStyle.Style1), _ =>
+            {
+                LocalCache.SetCheckResultIconStyle(ResultTypeIconStyle.Style1);
+                menu.text = GetResultTypeIconStyleName(ResultTypeIconStyle.Style1);
+                RefreshResultListView();
+            }, GetResultTypeIconStyleMenuItemStatus, ResultTypeIconStyle.Style1);
+            menu.menu.AppendAction(GetResultTypeIconStyleName(ResultTypeIconStyle.Style2), _ =>
+            {
+                LocalCache.SetCheckResultIconStyle(ResultTypeIconStyle.Style2);
+                menu.text = GetResultTypeIconStyleName(ResultTypeIconStyle.Style2);
+                RefreshResultListView();
+            }, GetResultTypeIconStyleMenuItemStatus, ResultTypeIconStyle.Style2);
+            menu.menu.AppendAction(GetResultTypeIconStyleName(ResultTypeIconStyle.Style3), _ =>
+            {
+                LocalCache.SetCheckResultIconStyle(ResultTypeIconStyle.Style3);
+                menu.text = GetResultTypeIconStyleName(ResultTypeIconStyle.Style3);
+                RefreshResultListView();
+            }, GetResultTypeIconStyleMenuItemStatus, ResultTypeIconStyle.Style3);
+        }
+
+        private static string GetResultTypeIconStyleName(ResultTypeIconStyle iconStyle)
+        {
+            switch (iconStyle)
+            {
+                case ResultTypeIconStyle.Style1:
+                    return "Type Icon Style 1";
+                case ResultTypeIconStyle.Style2:
+                    return "Type Icon Style 2";
+                case ResultTypeIconStyle.Style3:
+                    return "Type Icon Style 3";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(iconStyle), iconStyle, null);
+            }
+        }
+
+        private static DropdownMenuAction.Status GetResultTypeIconStyleMenuItemStatus(DropdownMenuAction action)
+        {
+            ResultTypeIconStyle currentStyle = LocalCache.GetCheckResultTypeIconStyle();
+            if (((ResultTypeIconStyle)action.userData) == currentStyle)
+            {
+                return DropdownMenuAction.Status.Checked | DropdownMenuAction.Status.Disabled;
+            }
+
+            return DropdownMenuAction.Status.Normal;
         }
     }
 }

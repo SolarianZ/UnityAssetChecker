@@ -31,18 +31,18 @@ namespace GBG.AssetChecking.Editor
 
     public static class CheckResultTypeHelper
     {
-        public static Texture GetResultTypeIcon(this CheckResultType resultType, ResultIconStyle iconStyle)
+        public static Texture GetResultTypeIcon(this CheckResultType resultType, ResultTypeIconStyle iconStyle)
         {
             switch (resultType)
             {
                 case CheckResultType.AllPass:
                     switch (iconStyle)
                     {
-                        case ResultIconStyle.Style1:
+                        case ResultTypeIconStyle.Style1:
                             return EditorGUIUtility.IconContent("sv_icon_dot3_pix16_gizmo").image;
-                        case ResultIconStyle.Style2:
+                        case ResultTypeIconStyle.Style2:
                             return EditorGUIUtility.IconContent("d_winbtn_mac_max@2x").image;
-                        case ResultIconStyle.Style3:
+                        case ResultTypeIconStyle.Style3:
                             return EditorGUIUtility.IconContent("d_greenLight").image;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(iconStyle), iconStyle, null);
@@ -50,11 +50,11 @@ namespace GBG.AssetChecking.Editor
                 case CheckResultType.NotImportant:
                     switch (iconStyle)
                     {
-                        case ResultIconStyle.Style1:
+                        case ResultTypeIconStyle.Style1:
                             return EditorGUIUtility.IconContent("sv_icon_dot0_pix16_gizmo").image;
-                        case ResultIconStyle.Style2:
+                        case ResultTypeIconStyle.Style2:
                             return EditorGUIUtility.IconContent("sv_icon_dot0_pix16_gizmo").image;
-                        case ResultIconStyle.Style3:
+                        case ResultTypeIconStyle.Style3:
                             return EditorGUIUtility.IconContent("sv_icon_dot0_pix16_gizmo").image;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(iconStyle), iconStyle, null);
@@ -62,11 +62,11 @@ namespace GBG.AssetChecking.Editor
                 case CheckResultType.Warning:
                     switch (iconStyle)
                     {
-                        case ResultIconStyle.Style1:
+                        case ResultTypeIconStyle.Style1:
                             return EditorGUIUtility.IconContent("sv_icon_dot5_pix16_gizmo").image;
-                        case ResultIconStyle.Style2:
+                        case ResultTypeIconStyle.Style2:
                             return EditorGUIUtility.IconContent("d_winbtn_mac_min@2x").image;
-                        case ResultIconStyle.Style3:
+                        case ResultTypeIconStyle.Style3:
                             return EditorGUIUtility.IconContent("d_orangeLight").image;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(iconStyle), iconStyle, null);
@@ -74,11 +74,11 @@ namespace GBG.AssetChecking.Editor
                 case CheckResultType.Error:
                     switch (iconStyle)
                     {
-                        case ResultIconStyle.Style1:
+                        case ResultTypeIconStyle.Style1:
                             return EditorGUIUtility.IconContent("sv_icon_dot6_pix16_gizmo").image;
-                        case ResultIconStyle.Style2:
+                        case ResultTypeIconStyle.Style2:
                             return EditorGUIUtility.IconContent("d_winbtn_mac_close@2x").image;
-                        case ResultIconStyle.Style3:
+                        case ResultTypeIconStyle.Style3:
                             return EditorGUIUtility.IconContent("d_redLight").image;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(iconStyle), iconStyle, null);
@@ -86,11 +86,11 @@ namespace GBG.AssetChecking.Editor
                 case CheckResultType.Exception:
                     switch (iconStyle)
                     {
-                        case ResultIconStyle.Style1:
+                        case ResultTypeIconStyle.Style1:
                             return EditorGUIUtility.IconContent("sv_icon_dot7_pix16_gizmo").image;
-                        case ResultIconStyle.Style2:
+                        case ResultTypeIconStyle.Style2:
                             return EditorGUIUtility.IconContent("d_winbtn_mac_close_a@2x").image;
-                        case ResultIconStyle.Style3:
+                        case ResultTypeIconStyle.Style3:
                             return EditorGUIUtility.IconContent("Error@2x").image;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(iconStyle), iconStyle, null);
