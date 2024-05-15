@@ -17,12 +17,12 @@ namespace GBG.AssetChecking.Editor
         [MenuItem("Window/Asset Management/Asset Checker")]
         private static void Open()
         {
-            GetWindow<AssetCheckerWindow>("AssetCheckerWindow");
+            Open(null);
         }
 
         public static AssetCheckerWindow Open(AssetCheckerSettings settings = null)
         {
-            AssetCheckerWindow window = GetWindow<AssetCheckerWindow>("AssetCheckerWindow");
+            AssetCheckerWindow window = GetWindow<AssetCheckerWindow>("Asset Checker");
             if (settings)
             {
                 window.SetSettingsAsset(settings);
