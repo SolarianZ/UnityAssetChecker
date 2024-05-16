@@ -20,19 +20,11 @@ namespace GBG.AssetChecking.Editor
         private ListView _resultListView;
         private CheckResultDetailsView _resultDetailsView;
 
-        private GUIContent _helpButtonContent;
-        private GUIStyle _helpButtonStyle;
-
         #endregion
 
 
         private void ShowButton(Rect position)
         {
-            if (_helpButtonContent == null)
-            {
-                _helpButtonStyle = GUI.skin.FindStyle("IconButton");
-            }
-
             if (GUI.Button(position, EditorGUIUtility.IconContent("_Help"), GUI.skin.FindStyle("IconButton")))
             {
                 Application.OpenURL("https://github.com/SolarianZ/UnityAssetChecker");
