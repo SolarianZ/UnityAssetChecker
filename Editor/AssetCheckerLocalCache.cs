@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GBG.AssetChecking.Editor
 {
-    [FilePath("Library/com.greenbamboogames.gametoolkit/AssetChecker",
+    [FilePath("Library/com.greenbamboogames.assetchecker/LocalCache.asset",
         FilePathAttribute.Location.ProjectFolder)]
     internal class AssetCheckerLocalCache : ScriptableSingleton<AssetCheckerLocalCache>
     {

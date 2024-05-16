@@ -41,7 +41,6 @@ namespace GBG.AssetChecking.Editor
 
         private void CreateGUI()
         {
-            minSize = new Vector2(500, 400);
             VisualElement root = rootVisualElement;
 
 

@@ -48,6 +48,11 @@ namespace GBG.AssetChecking.Editor
 
         private void OnEnable()
         {
+            titleContent = EditorGUIUtility.IconContent(
+                EditorGUIUtility.isProSkin ? "d_ViewToolOrbit" : "ViewToolOrbit");
+            titleContent.text = "Asset Checker";
+            minSize = new Vector2(500, 400);
+
             _settings = LocalCache.GetSettingsAsset();
             _stats = LocalCache.GetCheckResultStats();
             _nullResultCount = _stats.nullResult;
